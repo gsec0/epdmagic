@@ -13,7 +13,7 @@ This was originally written to offload some of the heavy image manipulation from
 ## Usage
 1. Install a suitable version of docker for your system as per the [official docs](https://docs.docker.com/engine/install/). If you are on Linux and want to use docker-compose or [portainer](https://docs.portainer.io/start/install-ce/server/docker/linux#introduction), you must also [install the docker-compose plugin](https://docs.docker.com/compose/install/linux/#install-using-the-repository). Windows users **don't** need to install compose separately.
 2. Head to the [releases](https://github.com/gsec0/epdmagic/releases) page and download the latest epdmagic.tar image.
-3. Load the image using `docker load -i epdmagic.tar`.
+3. Load the image using `docker load -i epdmagic.tar`. *Or build image from the included `Dockerfile`. See release notes at the [releases](https://github.com/gsec0/epdmagic/releases) page for more info.*
 4. Confirm the image is loaded with `docker images`.
 5. If you're using portainer: (skip if not)
 	1. Head over to **Portainer -> Stacks -> Add stack**
