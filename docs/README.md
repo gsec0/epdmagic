@@ -3,7 +3,8 @@ Prepare your pictures for displaying on Spectra 6 (E6) colour E-Ink displays!
 
 ## What is it?
 A docker microservice which will accept a binary image or URL and do the following:
-- Downscale (keep aspect ratio) to **800 × 480**.
+- Rotate to best fit the target orientation.
+- Downscale (keep aspect ratio) to target dimentions.
 - Quantize in accordance to Spectra 6 E-Ink display colours (Black, White, Green, Blue, Red, Yellow).
 - Dither to finalise and make the final picture presentable.
 
@@ -54,7 +55,7 @@ $ docker run -d -p 9600:8000 --name epdmagic epdmagic:latest
 
 ### Convert image from URL
 ```
-curl -X 'POST' 'http://{your_ip}:9600/convert?url=https://cdn.creazilla.com/illustrations/6672281/claude-monet-adolphe-monet-in-the-garden-of-le-coteau-at-sainte-adresse-1867-ill-lg.jpeg'
+curl -X 'POST' 'http://{your_ip}:9600/convert?url=https://cdn.creazilla.com/illustrations/6672281/claude-monet-adolphe-monet-in-the-garden-of-le-coteau-at-sainte-adresse-1867-ill-lg.jpeg&width=800&height=480'
 ```
 
 Response headers:
@@ -68,7 +69,7 @@ server: uvicorn
 
 ### Convert image from base64 encoded URL
 ```
-curl -X 'POST' 'http://{your_ip}:9600/convert?url=aHR0cHM6Ly9jZG4uY3JlYXppbGxhLmNvbS9pbGx1c3RyYXRpb25zLzY2NzIyODEvY2xhdWRlLW1vbmV0LWFkb2xwaGUtbW9uZXQtaW4tdGhlLWdhcmRlbi1vZi1sZS1jb3RlYXUtYXQtc2FpbnRlLWFkcmVzc2UtMTg2Ny1pbGwtbGcuanBlZw=='
+curl -X 'POST' 'http://{your_ip}:9600/convert?url=aHR0cHM6Ly9jZG4uY3JlYXppbGxhLmNvbS9pbGx1c3RyYXRpb25zLzY2NzIyODEvY2xhdWRlLW1vbmV0LWFkb2xwaGUtbW9uZXQtaW4tdGhlLWdhcmRlbi1vZi1sZS1jb3RlYXUtYXQtc2FpbnRlLWFkcmVzc2UtMTg2Ny1pbGwtbGcuanBlZw==&width=800&height=480'
 ```
 
 Response headers:
@@ -82,7 +83,7 @@ server: uvicorn
 
 ### Convert binary image
 ```
-curl -X 'POST' 'http://{your_ip}:9600/convert' -H 'accept: */*' -H 'Content-Type: multipart/form-data' -F 'file=@{your_jpeg}.jpg;type=image/jpeg'
+curl -X 'POST' 'http://{your_ip}:9600/convert?width=800&height=480' -H 'accept: */*' -H 'Content-Type: multipart/form-data' -F 'file=@{your_jpeg}.jpg;type=image/jpeg'
 ```
 
 Response headers:
@@ -137,4 +138,8 @@ $ source ./venv/bin/activate
 5. Install the requirements.
 ```bash
 $ pip install -r requirements.txt
+```
+6. Run the script.
+```bash
+$ uvicorn main:app --reload
 ```

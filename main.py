@@ -17,7 +17,7 @@ if getattr(sys, 'frozen', False):
 os.chdir(APP_PATH.parent)
 
 APP_NAME = "epdmagic"
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.2.0"
 
 app = FastAPI(title=APP_NAME)
 
@@ -47,7 +47,9 @@ def decode_url(url: str) -> str:
 @app.post("/convert", response_class=Response)
 async def convert(
     file: UploadFile | None = File(None),
-    url: str | None = Query(None)
+    url: str | None = Query(None),
+    width: int = Query(800, ge=1), # v0.2.0 allow custom target dimentions
+    height: int = Query(480, ge=1),
 ):
     """
     Convert an image to 800x480 6-colour BMP for ePaper.
@@ -65,7 +67,7 @@ async def convert(
         url = decode_url(url)
         data = await fetch_image(url)
 
-    bmp = process_image(data)
+    bmp = process_image(data, target_w=width, target_h=height)
 
     return Response(
         content=bmp,

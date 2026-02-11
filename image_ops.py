@@ -1,10 +1,6 @@
 from io import BytesIO
 from PIL import Image, ImageOps
 
-# Target display resolution
-TARGET_W = 800
-TARGET_H = 480
-
 # Fixed 6-colour ePaper palette
 PALETTE = [
     (0, 0, 0),        # Black
@@ -19,19 +15,27 @@ PALETTE = [
 PALETTE_FLAT = sum(PALETTE, ())
 
 
-def process_image(data: bytes) -> bytes:
+def process_image(data: bytes, target_w: int, target_h: int) -> bytes:
     # Load image from bytes
     with Image.open(BytesIO(data)) as im:
         # Convert to RGB
         im = im.convert("RGB")
 
+        # Determine orientations
+        target_is_landscape = target_w >= target_h
+        image_is_landscape = im.width >= im.height
+
+        # Rotate if orientations don't match (anti-clockwise 90 degrees)
+        if target_is_landscape != image_is_landscape: # v0.2.0 rotate the input image to match the target orientation
+            im = im.rotate(90, expand=True)
+
         # Scale while keeping aspect ratio
-        im.thumbnail((TARGET_W, TARGET_H), Image.Resampling.LANCZOS)
+        im.thumbnail((target_w, target_h), Image.Resampling.LANCZOS)
 
         # Create a new white background image and paste the resized image centered
-        background = Image.new("RGB", (TARGET_W, TARGET_H), (255, 255, 255))
-        left = (TARGET_W - im.width) // 2
-        top = (TARGET_H - im.height) // 2
+        background = Image.new("RGB", (target_w, target_h), (255, 255, 255))
+        left = (target_w - im.width) // 2
+        top = (target_h - im.height) // 2
         background.paste(im, (left, top))
         im = background
 
