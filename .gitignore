@@ -1,0 +1,61 @@
+# Node.js
+/node_modules/
+/package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+
+# Ruby
+/.bundle/
+/vendor/bundle/
+/log/*
+/tmp/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+/build/
+/out/
+
+# Visual Studio Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Environment Files
+.env
+*.env
+/venv/
+
+# IDE specific
+.idea/
+*.swp
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.log
+*.tmp
+*.bak
+
+# Other
+.DS_Store
+*.tgz
+*.zip
+*.rar
+
+# Test Coverage
+coverage/
+
