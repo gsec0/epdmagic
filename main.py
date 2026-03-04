@@ -17,9 +17,12 @@ if getattr(sys, 'frozen', False):
 os.chdir(APP_PATH.parent)
 
 APP_NAME = "epdmagic"
-APP_VERSION = "0.2.0"
+APP_VERSION = "0.2.1"
 
-app = FastAPI(title=APP_NAME)
+app = FastAPI(title=APP_NAME,
+              version=APP_VERSION, # v0.2.1 add version
+              description="Convert images to 6-colour BMP for ePaper displays"
+              )
 
 print(f"{APP_NAME} v{APP_VERSION}")
 print(f"Current working directory: {Path.cwd()}")
@@ -48,8 +51,8 @@ def decode_url(url: str) -> str:
 async def convert(
     file: UploadFile | None = File(None),
     url: str | None = Query(None),
-    width: int = Query(800, ge=1), # v0.2.0 allow custom target dimentions
-    height: int = Query(480, ge=1),
+    width: int = Query(800, ge=1, description="Target width in pixels"), # v0.2.0 allow custom target dimentions
+    height: int = Query(480, ge=1, description="Target height in pixels"),
 ):
     """
     Convert an image to 800x480 6-colour BMP for ePaper.
