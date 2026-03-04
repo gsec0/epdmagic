@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     libx11-dev \
     libxext-dev \
     zlib1g-dev \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -24,7 +25,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY ./*.py .
 
 EXPOSE 8000
 

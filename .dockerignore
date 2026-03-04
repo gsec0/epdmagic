@@ -1,10 +1,11 @@
-venv/
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
-.env
-.git
-.gitignore
+.git/
+venv/
+tests/
+build/
+docs/
+.vscode/
 .DS_Store
-logs/
+*.md
